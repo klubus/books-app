@@ -22,21 +22,25 @@
   }
 
   function initActions() {
-    const books = document.querySelectorAll('.books-list .book__image');
+    const booksPanel = document.querySelector('.books-panel');
 
-    for (const element of books) {
-      element.addEventListener('dblclick', function (event) {
-        event.preventDefault();
-        const dataId = element.dataset.id;
+    booksPanel.addEventListener('dblclick', function (event) {
+      event.preventDefault();
+
+      const parent = event.target.offsetParent;
+
+      if (parent.classList.contains('book__image')) {
+        const dataId = event.target.offsetParent.dataset.id;
+
         if (favoriteBooks.includes(dataId)) {
-          element.classList.remove('favorite');
+          parent.classList.remove('favorite');
           favoriteBooks = favoriteBooks.filter((id) => id !== dataId);
         } else {
-          element.classList.add('favorite');
+          parent.classList.add('favorite');
           favoriteBooks.push(dataId);
         }
-      });
-    }
+      }
+    });
   }
 
   render();
