@@ -3,9 +3,11 @@
   const select = {
     booksList: '.books-list',
     templateBook: '#template-book',
+    bookImage: '.book__image',
   };
 
   const books = dataSource.books;
+  let favoriteBooks = [];
 
   const template = Handlebars.compile(
     document.querySelector('#template-book').innerHTML
@@ -19,5 +21,19 @@
     }
   }
 
+  function initActions() {
+    const books = document.querySelectorAll('.books-list .book__image');
+
+    for (const element of books) {
+      element.addEventListener('click', function (event) {
+        event.preventDefault();
+        element.classList.add('favorite');
+        const dataId = element.dataset.id;
+        favoriteBooks.push(dataId);
+      });
+    }
+  }
+
   render();
+  initActions();
 }
