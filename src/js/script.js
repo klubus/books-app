@@ -25,11 +25,16 @@
     const books = document.querySelectorAll('.books-list .book__image');
 
     for (const element of books) {
-      element.addEventListener('click', function (event) {
+      element.addEventListener('dblclick', function (event) {
         event.preventDefault();
-        element.classList.add('favorite');
         const dataId = element.dataset.id;
-        favoriteBooks.push(dataId);
+        if (favoriteBooks.includes(dataId)) {
+          element.classList.remove('favorite');
+          favoriteBooks = favoriteBooks.filter((id) => id !== dataId);
+        } else {
+          element.classList.add('favorite');
+          favoriteBooks.push(dataId);
+        }
       });
     }
   }
