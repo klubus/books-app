@@ -4,10 +4,13 @@
     booksList: '.books-list',
     templateBook: '#template-book',
     bookImage: '.book__image',
+    booksPanel: '.books-panel',
+    filters: '.filters',
   };
 
   const books = dataSource.books;
   let favoriteBooks = [];
+  let filters = [];
 
   const template = Handlebars.compile(
     document.querySelector('#template-book').innerHTML
@@ -22,7 +25,8 @@
   }
 
   function initActions() {
-    const booksPanel = document.querySelector('.books-panel');
+    const booksPanel = document.querySelector(select.booksPanel);
+    const filter = document.querySelector(select.filters);
 
     booksPanel.addEventListener('dblclick', function (event) {
       event.preventDefault();
@@ -39,6 +43,27 @@
           parent.classList.add('favorite');
           favoriteBooks.push(dataId);
         }
+      }
+    });
+
+    filter.addEventListener('click', function (event) {
+      event.preventDefault();
+
+      const clickedElement = event.target;
+
+      if (
+        clickedElement.tagName === 'INPUT' &&
+        clickedElement.type === 'checkbox' &&
+        clickedElement.name === 'filter'
+      ) {
+        const value = clickedElement.value;
+
+        if (clickedElement.checked) {
+          filters.push(value);
+        } else {
+          filters = filters.filter((filter) => filter !== value);
+        }
+        console.log(filters);
       }
     });
   }
