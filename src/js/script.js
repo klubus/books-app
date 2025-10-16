@@ -47,8 +47,6 @@
     });
 
     filter.addEventListener('click', function (event) {
-      event.preventDefault();
-
       const clickedElement = event.target;
 
       if (
@@ -63,9 +61,30 @@
         } else {
           filters = filters.filter((filter) => filter !== value);
         }
+        filterBooks();
         console.log(filters);
       }
     });
+
+    function filterBooks() {
+      for (const book of dataSource.books) {
+        let shouldBeHidden = false;
+        for (const filter of filters) {
+          if (!book.details[filter]) {
+            shouldBeHidden = true;
+            break;
+          }
+        }
+        const bookImage = document.querySelector(
+          '.book__image[data-id="' + book.id + '"]'
+        );
+        if (shouldBeHidden) {
+          bookImage.classList.add('hidden');
+        } else {
+          bookImage.classList.remove('hidden');
+        }
+      }
+    }
   }
 
   render();
